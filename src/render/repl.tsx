@@ -3,6 +3,7 @@ import { Text, Box, useInput } from 'ink';
 import TextInput from 'ink-text-input';
 import type { WordData, DetailLevel } from '../types.js';
 import { LookupResult } from './lookup-result.js';
+import { Spinner } from './spinner.js';
 import { lookup } from '../fetch/lookup.js';
 
 interface ReplShellProps {
@@ -12,8 +13,8 @@ interface ReplShellProps {
 
 type LookupState =
   | { kind: 'idle' }
-  | { kind: 'loading'; word: string }
-  | { kind: 'error'; word: string; message: string }
+  | { kind: 'loading'; word: string; prev: { results: WordData[]; redirectFrom?: string } | null }
+  | { kind: 'error'; word: string; message: string; prev: { results: WordData[]; redirectFrom?: string } | null }
   | { kind: 'data'; word: string; results: WordData[]; redirectFrom?: string };
 
 export function ReplShell({ detail, refresh }: ReplShellProps) {
@@ -24,7 +25,14 @@ export function ReplShell({ detail, refresh }: ReplShellProps) {
     async (word: string) => {
       const trimmed = word.trim();
       if (!trimmed) return;
-      setState({ kind: 'loading', word: trimmed });
+
+      // snapshot previous result before transitioning to loading
+      const prev =
+        state.kind === 'data'
+          ? { results: state.results, redirectFrom: state.redirectFrom }
+          : null;
+
+      setState({ kind: 'loading', word: trimmed, prev });
       try {
         const result = await lookup(trimmed, { refresh });
         if (result === null) {
@@ -32,6 +40,7 @@ export function ReplShell({ detail, refresh }: ReplShellProps) {
             kind: 'error',
             word: trimmed,
             message: `No results for "${trimmed}".`,
+            prev,
           });
         } else {
           setState({
@@ -43,10 +52,10 @@ export function ReplShell({ detail, refresh }: ReplShellProps) {
         }
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);
-        setState({ kind: 'error', word: trimmed, message: msg });
+        setState({ kind: 'error', word: trimmed, message: msg, prev });
       }
     },
-    [refresh],
+    [refresh, state],
   );
 
   const onSubmit = useCallback(
@@ -71,12 +80,15 @@ export function ReplShell({ detail, refresh }: ReplShellProps) {
     }
   });
 
+  // Extract previous result for rendering during loading/error states
+  const prevResults = state.kind === 'loading' || state.kind === 'error' ? state.prev : null;
+
   return (
     <Box flexDirection="column">
       {/* Help banner on first launch or ? */}
       {state.kind === 'idle' && (
         <Box flexDirection="column" marginBottom={1}>
-          <Text bold>Word Lookup REPL</Text>
+          <Text bold>delve — REPL</Text>
           <Text dimColor>Type a word and press Enter to look it up.</Text>
           <Text dimColor>
             Type ? for help | q to quit | Esc to exit
@@ -87,7 +99,22 @@ export function ReplShell({ detail, refresh }: ReplShellProps) {
         </Box>
       )}
 
-      {/* Previous result stays visible */}
+      {/* Show previous result while loading or after error */}
+      {prevResults && (
+        <>
+          {prevResults.results.map((data, i) => (
+            <LookupResult
+              key={i}
+              data={data}
+              detail={detail}
+              redirectFrom={prevResults.redirectFrom}
+              index={prevResults.results.length > 1 ? i : undefined}
+            />
+          ))}
+        </>
+      )}
+
+      {/* Current result */}
       {state.kind === 'data' && (
         <>
           {state.results.map((data, i) => (
@@ -102,8 +129,16 @@ export function ReplShell({ detail, refresh }: ReplShellProps) {
         </>
       )}
 
+      {/* Error message — previous result already rendered above */}
       {state.kind === 'error' && (
         <Text color="red">✖ {state.message}</Text>
+      )}
+
+      {/* Spinner during loading */}
+      {state.kind === 'loading' && (
+        <Box marginY={1}>
+          <Spinner word={state.word} />
+        </Box>
       )}
 
       {/* Input line */}
@@ -115,7 +150,6 @@ export function ReplShell({ detail, refresh }: ReplShellProps) {
           onSubmit={onSubmit}
           placeholder="type a word..."
         />
-        {state.kind === 'loading' && <Text dimColor>  Searching...</Text>}
       </Box>
 
       {/* Status bar */}
