@@ -1,4 +1,4 @@
-# Word Lookup — Design Spec
+# delve — Design Spec
 
 **Date:** 2026-07-17
 **Status:** approved
@@ -9,8 +9,8 @@ A TypeScript CLI application that looks up English word definitions from Merriam
 
 ## Usage Modes
 
-- **Single-shot (default):** `wordlookup incubate` — fetches, renders, exits.
-- **Interactive REPL:** `wordlookup -i` / `wordlookup --interactive` — starts a session; type words one at a time, quit with `q` or Ctrl+C.
+- **Single-shot (default):** `delve incubate` — fetches, renders, exits.
+- **Interactive REPL:** `delve -i` / `delve --interactive` — starts a session; type words one at a time, quit with `q` or Ctrl+C.
 - **Detail flags:**
   - Default = standard detail (definitions, examples, etymology, first known use)
   - `-m` / `--minimal` = definitions + pronunciation only
@@ -33,7 +33,7 @@ Render layer — Ink React components → terminal
 
 ### Layer 1: Fetch & Parse
 
-1. Check TTL cache (`~/.wordlookup/cache/<word>.json`). If cache entry exists and is younger than 7 days (and `--refresh` is not set), return it immediately.
+1. Check TTL cache (`~/.delve/cache/<word>.json`). If cache entry exists and is younger than 7 days (and `--refresh` is not set), return it immediately.
 2. Cache miss → launch Playwright headless browser, navigate to `https://www.merriam-webster.com/dictionary/<word>`.
 3. Wait for the definition content to appear (CSS selector).
 4. Extract full HTML, parse with cheerio into a typed `WordData` object.

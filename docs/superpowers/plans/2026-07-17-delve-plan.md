@@ -1,10 +1,10 @@
-# Word Lookup CLI — Implementation Plan
+# delve — Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Build a TypeScript CLI that looks up English word definitions from Merriam-Webster using Playwright + cheerio + Ink.
 
-**Architecture:** Three layers — fetch (cache → Playwright → cheerio → WordData), render (Ink React components), CLI (commander args). Cache-first with 7-day TTL at `~/.wordlookup/cache/`.
+**Architecture:** Three layers — fetch (cache → Playwright → cheerio → WordData), render (Ink React components), CLI (commander args). Cache-first with 7-day TTL at `~/.delve/cache/`.
 
 **Tech Stack:** TypeScript (strict), pnpm, commander, playwright, cheerio, ink, react, tsx, os, fs/promises
 
@@ -37,12 +37,12 @@ src/
 
 ```json
 {
-  "name": "wordlookup",
+  "name": "delve",
   "version": "1.0.0",
-  "description": "English word lookup via Merriam-Webster",
+  "description": "Look up English word definitions from Merriam-Webster",
   "type": "module",
   "bin": {
-    "wordlookup": "./dist/index.js"
+    "delve": "./dist/index.js"
   },
   "scripts": {
     "dev": "tsx src/index.ts",
@@ -203,7 +203,7 @@ import { mkdir, readFile, writeFile, unlink } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import type { CacheEntry, WordData } from '../types.js';
 
-const CACHE_DIR = join(homedir(), '.wordlookup', 'cache');
+const CACHE_DIR = join(homedir(), '.delve', 'cache');
 const TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 function cachePath(word: string): string {
@@ -1182,7 +1182,7 @@ import { closeBrowser } from './fetch/browser.js';
 import type { DetailLevel } from './types.js';
 
 program
-  .name('wordlookup')
+  .name('delve')
   .description('Look up English word definitions from Merriam-Webster')
   .version('1.0.0')
   .argument('[word]', 'word to look up (omit with -i for interactive mode)')

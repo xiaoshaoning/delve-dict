@@ -3,7 +3,7 @@ import { mkdir, readFile, writeFile, unlink } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import type { CacheEntry, WordData } from '../types.js';
 
-const CACHE_DIR = join(homedir(), '.wordlookup', 'cache');
+const CACHE_DIR = join(homedir(), '.delve', 'cache');
 const TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 function cachePath(word: string): string {

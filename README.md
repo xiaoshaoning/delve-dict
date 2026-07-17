@@ -1,6 +1,6 @@
-# wordlookup
+# delve
 
-English word lookup CLI — fetches definitions, pronunciations, etymology, and more from [Merriam-Webster](https://www.merriam-webster.com).
+Look up English word definitions from [Merriam-Webster](https://www.merriam-webster.com).
 
 ```
 ╭── incubate  verb ──────────────────────────────────╮
@@ -76,7 +76,7 @@ pnpm dev -i -f
 
 ## How It Works
 
-1. **Cache check** — looks in `~/.wordlookup/cache/<word>.json` (TTL: 7 days). Instant if cached.
+1. **Cache check** — looks in `~/.delve/cache/<word>.json` (TTL: 7 days). Instant if cached.
 2. **Browser fetch** — on cache miss, Playwright launches Edge headless, navigates to `merriam-webster.com/dictionary/<word>`.
 3. **Parse** — cheerio extracts headword, part of speech, definitions, pronunciations (IPA), inflections, etymology.
 4. **Render** — Ink (React-on-terminal) displays the result in a styled box.
@@ -95,7 +95,7 @@ pnpm dev -i -f
 
 ## Cache
 
-- Location: `~/.wordlookup/cache/`
+- Location: `~/.delve/cache/`
 - TTL: 7 days
 - Force refresh: `--refresh` flag
-- Manual clear: `rm -rf ~/.wordlookup/cache/`
+- Manual clear: `rm -rf ~/.delve/cache/`

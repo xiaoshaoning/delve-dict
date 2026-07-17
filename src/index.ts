@@ -8,7 +8,7 @@ import { closeBrowser } from './fetch/browser.js';
 import type { DetailLevel } from './types.js';
 
 program
-  .name('wordlookup')
+  .name('delve')
   .description('Look up English word definitions from Merriam-Webster')
   .version('1.0.0')
   .argument('[word]', 'word to look up (omit with -i for interactive mode)')

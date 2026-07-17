@@ -1,10 +1,10 @@
 {
-  "name": "wordlookup",
+  "name": "delve",
   "version": "1.0.0",
-  "description": "English word lookup via Merriam-Webster",
+  "description": "Look up English word definitions from Merriam-Webster",
   "type": "module",
   "bin": {
-    "wordlookup": "./dist/index.js"
+    "delve": "./dist/index.js"
   },
   "scripts": {
     "dev": "tsx src/index.ts",
