@@ -46,30 +46,6 @@ export function LookupResult({ data, detail, redirectFrom, index }: LookupResult
           <Text dimColor>Showing results for: {data.headword}</Text>
         )}
 
-        {/* Pronunciations */}
-        {data.pronunciations.length > 0 && (
-          <Box flexDirection="column" marginTop={1}>
-            {data.pronunciations.map((p, i) => (
-              <Text key={i} color="yellow">
-                {p.label ? `${p.label}: ` : 'Pronunciation: '}
-                {p.text}
-              </Text>
-            ))}
-          </Box>
-        )}
-
-        {/* Inflections */}
-        {data.inflections.length > 0 && (
-          <Box flexDirection="column" marginTop={1}>
-            {data.inflections.map((inf, i) => (
-              <Text key={i} color="yellow">
-                {inf.form}
-                {inf.label ? ` (${inf.label})` : ''}
-              </Text>
-            ))}
-          </Box>
-        )}
-
         {/* Definitions */}
         {data.definitions.map((group, gi) => (
           <Box key={gi} flexDirection="column" marginTop={1}>
@@ -125,6 +101,30 @@ export function LookupResult({ data, detail, redirectFrom, index }: LookupResult
           <Box flexDirection="column" marginTop={1}>
             <Text bold>Antonyms:</Text>
             <Text>{data.antonyms.join(', ')}</Text>
+          </Box>
+        )}
+
+        {/* Pronunciations */}
+        {data.pronunciations.length > 0 && (
+          <Box flexDirection="column" marginTop={1}>
+            {data.pronunciations.map((p, i) => (
+              <Text key={i} color="yellow">
+                {p.label ? `${p.label}: ` : 'Pronunciation: '}
+                {p.text}
+              </Text>
+            ))}
+          </Box>
+        )}
+
+        {/* Inflections */}
+        {data.inflections.length > 0 && (
+          <Box flexDirection="column" marginTop={1}>
+            {data.inflections.map((inf, i) => (
+              <Text key={i} color="yellow">
+                {inf.form}
+                {inf.label ? ` (${inf.label})` : ''}
+              </Text>
+            ))}
           </Box>
         )}
       </Box>
