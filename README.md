@@ -21,6 +21,7 @@ Look up English word definitions from [Merriam-Webster](https://www.merriam-webs
 ```bash
 pnpm install
 pnpm build
+pnpm link --global    # makes `delve` available from anywhere
 ```
 
 Requires **Google Chrome** or **Microsoft Edge** (used by Playwright to bypass M-W's bot protection). Chrome is tried first; Edge is the fallback. No separate browser download needed.
@@ -30,21 +31,19 @@ Requires **Google Chrome** or **Microsoft Edge** (used by Playwright to bypass M
 ### Single-shot lookup
 
 ```bash
-pnpm dev <word>
-# or after build:
-pnpm start <word>
+delve <word>
 ```
 
 ```
-pnpm dev incubate
-pnpm dev serendipity
-pnpm dev ephemeral
+delve incubate
+delve serendipity
+delve ephemeral
 ```
 
 ### Interactive REPL
 
 ```bash
-pnpm dev -i
+delve -i
 ```
 
 Type words one at a time, results stay on screen. Type `q` to quit, `Esc` to exit.
@@ -62,16 +61,16 @@ Type words one at a time, results stay on screen. Type `q` to quit, `Esc` to exi
 
 ```bash
 # Minimal output — just the essentials
-pnpm dev ephemeral -m
+delve ephemeral -m
 
 # Full output — includes synonyms & antonyms
-pnpm dev beautiful -f
+delve beautiful -f
 
 # Force a fresh fetch, ignore cache
-pnpm dev incubate -r
+delve incubate -r
 
 # Interactive mode with full detail
-pnpm dev -i -f
+delve -i -f
 ```
 
 ## How It Works
