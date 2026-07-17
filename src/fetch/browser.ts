@@ -6,10 +6,22 @@ let browser: Browser | null = null;
 
 async function getBrowser(): Promise<Browser> {
   if (!browser || !browser.isConnected()) {
-    browser = await chromium.launch({
-      headless: true,
-      channel: 'msedge', // use system Edge instead of bundled Chromium
-    });
+    // Try Chrome first, fall back to Edge
+    for (const channel of ['chrome', 'msedge'] as const) {
+      try {
+        browser = await chromium.launch({
+          headless: true,
+          channel,
+        });
+        return browser;
+      } catch {
+        continue;
+      }
+    }
+    throw new Error(
+      'Neither Google Chrome nor Microsoft Edge was found. ' +
+        'Please install one of them to use delve.',
+    );
   }
   return browser;
 }

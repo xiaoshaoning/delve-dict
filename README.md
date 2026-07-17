@@ -23,7 +23,7 @@ pnpm install
 pnpm build
 ```
 
-Requires **Microsoft Edge** (used by Playwright to bypass M-W's bot protection). No separate browser download needed.
+Requires **Google Chrome** or **Microsoft Edge** (used by Playwright to bypass M-W's bot protection). Chrome is tried first; Edge is the fallback. No separate browser download needed.
 
 ## Usage
 
@@ -88,7 +88,7 @@ pnpm dev -i -f
 |-------|---------|
 | Runtime | Node.js + TypeScript (strict) |
 | CLI args | commander |
-| Browser | Playwright (Edge channel) |
+| Browser | Playwright (Chrome → Edge fallback) |
 | HTML parse | cheerio |
 | Terminal UI | Ink + React |
 | Dev runner | tsx |
