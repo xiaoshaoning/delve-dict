@@ -46,6 +46,15 @@ export function App({ word, detail, refresh }: AppProps) {
     };
   }, [word, refresh]);
 
+  // auto-exit after rendering result in single-shot mode
+  useEffect(() => {
+    if (state.kind === 'data' || state.kind === 'error') {
+      // let Ink flush the output before exiting
+      const timer = setTimeout(() => process.exit(state.kind === 'error' ? 1 : 0), 0);
+      return () => clearTimeout(timer);
+    }
+  }, [state.kind]);
+
   if (state.kind === 'loading') {
     return <Spinner word={word} />;
   }
