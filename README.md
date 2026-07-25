@@ -3,6 +3,7 @@
 Look up English word definitions from [Merriam-Webster](https://www.merriam-webster.com).
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+[![npm](https://img.shields.io/npm/v/delve-dict)](https://www.npmjs.com/package/delve-dict)
 
 ```
 ╭── incubate  verb ──────────────────────────────────╮
@@ -21,17 +22,22 @@ Look up English word definitions from [Merriam-Webster](https://www.merriam-webs
 ## Install
 
 ```bash
-git clone https://github.com/xiaoshaoning/delve-dict.git
-cd delve-dict
-pnpm install
-pnpm build
-pnpm link --global    # makes `delve` available from anywhere
+npm install -g delve-dict
 ```
 
 Requires a browser for Playwright (used to bypass M-W's bot protection):
 
 - **Windows/macOS**: Google Chrome or Microsoft Edge (auto-detected)
 - **Linux / WSL2**: run `npx playwright install chromium` after install
+
+### From source
+
+```bash
+git clone https://github.com/xiaoshaoning/delve-dict.git
+cd delve-dict
+pnpm install
+pnpm build
+pnpm link --global
 
 ## Usage
 
@@ -83,7 +89,7 @@ delve -i -f
 ## How It Works
 
 1. **Cache check** — looks in `~/.delve/cache/<word>.json` (TTL: 7 days). Instant if cached.
-2. **Browser fetch** — on cache miss, Playwright launches Edge headless, navigates to `merriam-webster.com/dictionary/<word>`.
+2. **Browser fetch** — on cache miss, Playwright launches a headless browser (Chrome → Edge → Chromium), navigates to `merriam-webster.com/dictionary/<word>`.
 3. **Parse** — cheerio extracts headword, part of speech, definitions, pronunciations (IPA), inflections, etymology.
 4. **Render** — Ink (React-on-terminal) displays the result in a styled box.
 5. **Cache write** — result saved to disk for next time.
@@ -94,7 +100,7 @@ delve -i -f
 |-------|---------|
 | Runtime | Node.js + TypeScript (strict) |
 | CLI args | commander |
-| Browser | Playwright (Chrome → Edge fallback) |
+| Browser | Playwright (Chrome → Edge → Chromium) |
 | HTML parse | cheerio |
 | Terminal UI | Ink + React |
 | Dev runner | tsx |
