@@ -1,11 +1,33 @@
 {
-  "name": "delve",
+  "name": "delve-dict",
   "version": "1.0.0",
   "description": "Look up English word definitions from Merriam-Webster",
+  "license": "Apache-2.0",
+  "author": "Xiao, Shaoning <xiaoshaoning@foxmail.com> (https://github.com/xiaoshaoning)",
   "type": "module",
   "bin": {
     "delve": "./dist/index.js"
   },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xiaoshaoning/delve-dict.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xiaoshaoning/delve-dict/issues"
+  },
+  "homepage": "https://github.com/xiaoshaoning/delve-dict#readme",
+  "keywords": [
+    "dictionary",
+    "merriam-webster",
+    "cli",
+    "english",
+    "word-lookup",
+    "vocabulary",
+    "terminal"
+  ],
   "scripts": {
     "dev": "tsx src/index.ts",
     "delve": "node dist/index.js",

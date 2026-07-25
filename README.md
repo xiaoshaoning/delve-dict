@@ -1,6 +1,8 @@
-# delve
+# delve-dict
 
 Look up English word definitions from [Merriam-Webster](https://www.merriam-webster.com).
+
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 
 ```
 ╭── incubate  verb ──────────────────────────────────╮
@@ -19,6 +21,8 @@ Look up English word definitions from [Merriam-Webster](https://www.merriam-webs
 ## Install
 
 ```bash
+git clone https://github.com/xiaoshaoning/delve-dict.git
+cd delve-dict
 pnpm install
 pnpm build
 pnpm link --global    # makes `delve` available from anywhere
