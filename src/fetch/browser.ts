@@ -6,12 +6,12 @@ let browser: Browser | null = null;
 
 async function getBrowser(): Promise<Browser> {
   if (!browser || !browser.isConnected()) {
-    // Try Chrome first, fall back to Edge
-    for (const channel of ['chrome', 'msedge'] as const) {
+    // Try Chrome first, then Edge, then Playwright's bundled Chromium
+    for (const channel of ['chrome', 'msedge', undefined] as const) {
       try {
         browser = await chromium.launch({
           headless: true,
-          channel,
+          ...(channel ? { channel } : {}),
         });
         return browser;
       } catch {
@@ -19,8 +19,7 @@ async function getBrowser(): Promise<Browser> {
       }
     }
     throw new Error(
-      'Neither Google Chrome nor Microsoft Edge was found. ' +
-        'Please install one of them to use delve.',
+      'No browser found. Install Chrome/Edge, or run: npx playwright install chromium',
     );
   }
   return browser;

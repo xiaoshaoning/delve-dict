@@ -28,7 +28,10 @@ pnpm build
 pnpm link --global    # makes `delve` available from anywhere
 ```
 
-Requires **Google Chrome** or **Microsoft Edge** (used by Playwright to bypass M-W's bot protection). Chrome is tried first; Edge is the fallback. No separate browser download needed.
+Requires a browser for Playwright (used to bypass M-W's bot protection):
+
+- **Windows/macOS**: Google Chrome or Microsoft Edge (auto-detected)
+- **Linux / WSL2**: run `npx playwright install chromium` after install
 
 ## Usage
 
