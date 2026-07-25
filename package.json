@@ -6,7 +6,7 @@
   "author": "Xiao, Shaoning <xiaoshaoning@foxmail.com> (https://github.com/xiaoshaoning)",
   "type": "module",
   "bin": {
-    "delve": "./dist/index.js"
+    "delve": "dist/index.js"
   },
   "files": [
     "dist"
